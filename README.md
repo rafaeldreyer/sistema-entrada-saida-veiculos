@@ -27,7 +27,7 @@ O projeto tem como objetivo modelar um sistema de informação para controle de 
 
 ## Estrutura do repositório
 
-- `/documentacao`: contém o PDF final do trabalho.
+- `/documentacao`: contém o PDF final do trabalho e a versão editável em DOCX.
 - `/diagramas/banco-de-dados`: contém as imagens e arquivos da modelagem do banco de dados.
 - `/diagramas/uml`: contém os diagramas UML do sistema.
 - `/src`: reservado para implementação futura do sistema.
@@ -55,3 +55,8 @@ A entrega contempla:
 - Diagrama de Sequência
 - Diagramas de Atividades
 - Documentação publicada no GitHub
+
+Arquivos finais da entrega:
+
+- [`Entrega_1_Modelagem_Sistema_Entrada_Saida_Veiculos.pdf`](documentacao/Entrega_1_Modelagem_Sistema_Entrada_Saida_Veiculos.pdf)
+- [`Entrega_1_Modelagem_Sistema_Entrada_Saida_Veiculos.docx`](documentacao/Entrega_1_Modelagem_Sistema_Entrada_Saida_Veiculos.docx)
