@@ -1,0 +1,15 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__.'/../includes/auth.php';require_login();require_once __DIR__.'/../config/database.php';
+$pdo=db();$erros=[];
+if($_SERVER['REQUEST_METHOD']==='POST'){
+ validate_csrf();$nome=trim((string)($_POST['nome']??''));$cpf=preg_replace('/\D/','',(string)($_POST['cpf']??''));$telefone=trim((string)($_POST['telefone']??''));$email=trim((string)($_POST['email']??''));$tipo=(string)($_POST['tipo_condutor']??'VISITANTE');$setor=trim((string)($_POST['unidade_setor']??''));
+ if($nome==='')$erros[]='Informe o nome do condutor.';if($cpf!==''&&strlen($cpf)!==11)$erros[]='O CPF deve ter 11 números.';if($email!==''&&!filter_var($email,FILTER_VALIDATE_EMAIL))$erros[]='Informe um e-mail válido.';
+ if(!$erros){try{$stmt=$pdo->prepare('INSERT INTO condutores(nome,cpf,telefone,email,tipo_condutor,unidade_setor) VALUES(?,?,?,?,?,?)');$stmt->execute([$nome,$cpf?:null,$telefone?:null,$email?:null,$tipo,$setor?:null]);flash('sucesso','Condutor cadastrado.');redirect('condutores/index.php');}catch(PDOException $e){$erros[]=$e->getCode()==='23000'?'O CPF já está cadastrado.':'Não foi possível cadastrar o condutor.';}}
+}
+$condutores=$pdo->query('SELECT * FROM condutores ORDER BY nome')->fetchAll();$pageTitle='Condutores';require __DIR__.'/../includes/header.php';
+?>
+<div class="page-heading"><div><h1>Condutores</h1><p>Cadastro básico para relacionar responsáveis e veículos.</p></div></div>
+<section class="form-panel"><h2>Novo condutor</h2><?php if($erros):?><ul class="error-list"><?php foreach($erros as $erro):?><li><?=e($erro)?></li><?php endforeach;?></ul><?php endif;?><form method="post"><input type="hidden" name="csrf_token" value="<?=e(csrf_token())?>"><div class="form-grid"><label>Nome<input name="nome" required maxlength="120" value="<?=e($_POST['nome']??'')?>"></label><label>CPF<input name="cpf" inputmode="numeric" maxlength="14" value="<?=e($_POST['cpf']??'')?>"></label><label>Telefone<input name="telefone" maxlength="20" value="<?=e($_POST['telefone']??'')?>"></label><label>E-mail<input type="email" name="email" maxlength="150" value="<?=e($_POST['email']??'')?>"></label><label>Tipo<select name="tipo_condutor"><?php foreach(['FUNCIONARIO','VISITANTE','PRESTADOR','OUTRO'] as $tipo):?><option><?=$tipo?></option><?php endforeach;?></select></label><label>Unidade/setor<input name="unidade_setor" maxlength="100" value="<?=e($_POST['unidade_setor']??'')?>"></label></div><button class="button" type="submit">Cadastrar</button></form></section>
+<h2>Condutores cadastrados</h2><?php if(!$condutores):?><p class="empty-state">Nenhum condutor cadastrado.</p><?php else:?><div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>Contato</th><th>Tipo</th><th>Status</th></tr></thead><tbody><?php foreach($condutores as $c):?><tr><td><?=e($c['nome'])?></td><td><?=e($c['cpf']?:'—')?></td><td><?=e($c['telefone']?:$c['email']?:'—')?></td><td><?=e($c['tipo_condutor'])?></td><td><span class="badge badge-<?=strtolower($c['status'])?>"><?=e($c['status'])?></span></td></tr><?php endforeach;?></tbody></table></div><?php endif;?>
+<?php require __DIR__.'/../includes/footer.php';?>

@@ -1,0 +1,66 @@
+erDiagram
+    USUARIOS ||--o{ MOVIMENTACOES : registra_entrada
+    USUARIOS ||--o{ MOVIMENTACOES : registra_saida
+    CONDUTORES ||--o{ VEICULOS : possui
+    CONDUTORES ||--o{ MOVIMENTACOES : conduz
+    VEICULOS ||--o{ MOVIMENTACOES : gera
+    VAGAS ||--o{ MOVIMENTACOES : recebe
+
+    USUARIOS {
+      int id_usuario PK
+      varchar nome
+      varchar nome_usuario UK
+      varchar email UK
+      varchar senha_hash
+      enum perfil
+      enum status
+    }
+    CONDUTORES {
+      int id_condutor PK
+      varchar nome
+      char cpf UK
+      varchar telefone
+      varchar email
+      enum tipo_condutor
+      varchar unidade_setor
+      enum status
+    }
+    VEICULOS {
+      int id_veiculo PK
+      int id_condutor FK
+      varchar placa UK
+      varchar marca
+      varchar modelo
+      varchar cor
+      smallint ano_modelo
+      enum tipo_veiculo
+      enum status
+    }
+    VAGAS {
+      int id_vaga PK
+      varchar codigo UK
+      varchar setor
+      enum tipo_vaga
+      enum status
+    }
+    MOVIMENTACOES {
+      int id_movimentacao PK
+      int id_veiculo FK
+      int id_condutor FK
+      int id_vaga FK
+      int id_usuario_entrada FK
+      int id_usuario_saida FK
+      datetime data_hora_entrada
+      datetime data_hora_saida
+      varchar motivo_visita
+      enum status
+    }
+    CONTATOS {
+      int id_contato PK
+      varchar nome
+      varchar email
+      varchar assunto
+      text mensagem
+      datetime data_envio
+      enum status
+    }

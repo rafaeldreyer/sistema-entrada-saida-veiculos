@@ -1,0 +1,14 @@
+flowchart LR
+    A[Administrador]
+    O[Operador / Porteiro]
+    L((Realizar login))
+    D((Visualizar painel))
+    V((Gerenciar veículos))
+    C((Cadastrar condutores))
+    G((Cadastrar vagas))
+    E((Registrar entrada))
+    S((Registrar saída))
+    R((Consultar movimentações))
+    F((Enviar contato))
+    A --- L & D & V & C & G & E & S & R & F
+    O --- L & D & E & S & R & F
