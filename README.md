@@ -35,11 +35,10 @@ Quando as informações ficam em papéis ou planilhas diferentes, é mais difíc
 ```text
 ├── banco/                  arquivo SQL de instalação
 ├── diagramas/              diagramas originais e atualizados
-├── doc/atividade-2/        documentos e entrega da Atividade 2
+├── doc/atividade-2/        PDF de entrega da Atividade 2
 ├── doc/atividade-3/        apresentação da Atividade 3
 ├── documentacao/           documentos preservados da Atividade 1
-├── src/                    código-fonte do sistema
-└── tests/                  registro dos testes executados
+└── src/                    código-fonte do sistema
 ```
 
 ## Requisitos para execução
